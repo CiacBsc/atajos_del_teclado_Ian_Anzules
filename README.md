@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -32,7 +33,10 @@
     justify-content:center;
     padding:22px 14px 60px;
   }
-  #app{width:100%;max-width:460px;}
+  
+  /* Contenedor fluido para adaptarse a distintos tamaños */
+  #app{width:100%;max-width:460px; transition: max-width 0.3s ease;}
+  
   h1,h2,h3{font-family:'Baloo 2',sans-serif;font-weight:700;margin:0;}
   .icon{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
   button{font-family:inherit;cursor:pointer;}
@@ -47,13 +51,14 @@
   .top p{margin:2px 0 0;font-size:13px;color:var(--ink-soft);}
 
   /* card sheet */
-  .sheet{background:var(--card);border-radius:18px;border:1.5px solid var(--line);padding:22px 18px;position:relative;overflow:hidden;}
+  .sheet{background:var(--card);border-radius:18px;border:1.5px solid var(--line);padding:22px 18px;position:relative;overflow:hidden; transition: padding 0.3s ease;}
   .sheet::before{content:"";position:absolute;left:34px;top:0;bottom:0;width:2px;background:var(--margin);opacity:.55;}
   .sheet-inner{position:relative;padding-left:14px;}
 
   /* menu screen */
   .menu-title{font-size:15px;color:var(--ink-soft);margin:0 0 14px;}
   .level-card{display:flex;align-items:center;gap:14px;width:100%;background:#fff;border:2px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:12px;text-align:left;transition:transform .12s, border-color .12s;}
+  .level-card:hover{background-color:#FDFBF7;}
   .level-card:active{transform:scale(.97);}
   .level-card .lc-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .level-card .lc-icon .icon{width:28px;height:28px;color:#fff;}
@@ -64,9 +69,9 @@
 
   /* game header */
   .game-top{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-  .back-btn{background:none;border:none;color:var(--ink-soft);display:flex;align-items:center;padding:6px;border-radius:10px;}
+  .back-btn{background:none;border:none;color:var(--ink-soft);display:flex;align-items:center;padding:6px;border-radius:10px;cursor:pointer;}
   .back-btn .icon{width:22px;height:22px;}
-  .back-btn:hover{background:var(--paper);}
+  .back-btn:hover{background:var(--paper);color:var(--ink);}
   .progress-label{font-size:13px;color:var(--ink-soft);font-weight:700;margin-bottom:4px;}
   .dots{display:flex;gap:5px;flex:1;flex-wrap:wrap;}
   .dot{width:9px;height:9px;border-radius:50%;background:var(--line);}
@@ -74,21 +79,25 @@
   .dot.current{background:var(--amber);}
 
   /* question */
-  .q-icon-wrap{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:4px auto 14px;}
+  .q-icon-wrap{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:4px auto 14px;transition: all 0.3s ease;}
   .q-icon-wrap .icon{width:34px;height:34px;color:#fff;}
   .q-prompt{font-size:19px;text-align:center;line-height:1.4;margin:0 0 20px;font-weight:600;}
-  .options{display:flex;flex-direction:column;gap:12px;}
+  
+  /* Options Grid for responsiveness */
+  .options{display:grid;gap:12px;grid-template-columns:1fr;}
+  
+  /* Corrección aplicada: Justify-content center para centrar las teclas */
   .opt{display:flex;align-items:center;justify-content:center;gap:12px;background:#fff;border:2.5px solid var(--line);border-radius:16px;padding:12px 14px;transition:transform .1s, border-color .1s, background .15s;}
-  .opt .opt-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .opt .opt-icon .icon{width:20px;height:20px;color:#fff;}
+  .opt:hover:not(:disabled){background:#FDFBF7;border-color:var(--ink-soft);}
   .opt-keys{display:flex;align-items:center;gap:5px;}
   .key{border:2px solid var(--ink);border-radius:8px;padding:5px 9px;font-weight:700;font-size:15px;background:#fff;line-height:1;}
   .plus{font-weight:700;color:var(--ink-soft);}
-  .opt:active{transform:scale(.97);}
+  .opt:active:not(:disabled){transform:scale(.97);}
   .opt.correct{border-color:var(--ok);background:#EAF6EF;animation:pop .35s;}
   .opt.wrong{border-color:var(--bad);background:#FCECEA;animation:shake .35s;}
   .opt.hint{border-color:var(--ok);background:#EAF6EF;}
-  .opt:disabled{opacity:.55;}
+  .opt:disabled{opacity:.65; cursor:default;}
+  
   @keyframes pop{0%{transform:scale(1);}40%{transform:scale(1.04);}100%{transform:scale(1);}}
   @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
 
@@ -109,14 +118,49 @@
   .stars-row{display:flex;justify-content:center;gap:6px;margin-bottom:18px;}
   .stars-row .icon{width:26px;height:26px;}
   .btn-row{display:flex;flex-direction:column;gap:10px;}
-  .btn{border:none;border-radius:14px;padding:14px;font-family:'Baloo 2',sans-serif;font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .btn{border:none;border-radius:14px;padding:14px;font-family:'Baloo 2',sans-serif;font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px; cursor:pointer;}
   .btn .icon{width:19px;height:19px;}
   .btn-primary{background:var(--ink);color:#fff;}
+  .btn-primary:hover{background:var(--ink-soft);}
   .btn-secondary{background:#fff;border:2px solid var(--line);color:var(--ink);}
+  .btn-secondary:hover{background:#FDFBF7;}
   .btn:active{transform:scale(.98);}
 
   .tip{display:flex;gap:10px;align-items:flex-start;background:#FDF6E9;border-radius:14px;padding:12px 14px;margin-top:16px;font-size:13px;color:var(--ink-soft);line-height:1.5;}
   .tip .icon{width:18px;height:18px;color:var(--amber-d);flex-shrink:0;margin-top:1px;}
+
+  /* RESPONSIVE DESIGN: Tablets y Pantallas de Computadora (Desktop) */
+  @media (min-width: 600px) {
+    body { padding: 40px 20px 80px; }
+    #app { max-width: 650px; } /* Se ensancha el contenedor */
+    .sheet { padding: 34px 28px; border-radius: 24px; }
+    .top h1 { font-size: 26px; }
+    .top p { font-size: 15px; }
+    
+    /* Aumenta el tamaño de la tarjeta de nivel */
+    .level-card { padding: 18px 22px; }
+    .level-card h3 { font-size: 19px; }
+    .level-card p { font-size: 14px; }
+    
+    /* Preguntas y botones de respuesta más grandes para PC/Tablet */
+    .q-prompt { font-size: 22px; }
+    .q-icon-wrap { width: 76px; height: 76px; margin-bottom: 20px; }
+    .q-icon-wrap .icon { width: 40px; height: 40px; }
+    
+    .opt { padding: 16px 20px; }
+    .key { font-size: 17px; padding: 7px 11px; }
+    .plus { font-size: 17px; }
+    
+    /* Mostrar opciones en 2 columnas si quieres que la pantalla se vea más llena. 
+       Para mantenerlo en bloque central, lo dejamos en 1 columna pero más ancha */
+    .options { max-width: 80%; margin: 0 auto; } 
+    
+    .complete h2 { font-size: 26px; }
+    .complete p { font-size: 17px; }
+    .btn { font-size: 18px; padding: 16px; }
+    
+    .tip { font-size: 14px; padding: 16px; }
+  }
 </style>
 </head>
 <body>
@@ -178,13 +222,13 @@ const LEVELS = {
     name:'Internet', icon:'i-tabnew', color:'teal',
     desc:'Pestañas, buscar páginas y más',
     items:[
-      {combo:'Ctrl + T', action:'nueva pestaña', icon:'i-tabnew', color:'teal', prompt:'Cual es el atajo para ABRIR UNA PESTAÑA NUEVA'},
-      {combo:'Ctrl + W', action:'cerrar pestaña', icon:'i-tabclose', color:'coral', prompt:'Cual es el atajo para CERRAR PESTAÑA'},
-      {combo:'Ctrl + R', action:'recargar página', icon:'i-reload', color:'blue', prompt:'Cual es el atajo para RECARGAR LA PAGINA'},
-      {combo:'Ctrl + H', action:'ver historial', icon:'i-history', color:'purple', prompt:'Cual es el atajo para VER EL HISTORIAL'},
-      {combo:'Ctrl + J', action:'ver descargas', icon:'i-download', color:'green', prompt:'Cual es el atajo para VER MIS DESCARGAS'},
-      {combo:'Ctrl + Tab', action:'cambiar de pestaña', icon:'i-switch', color:'amber', prompt:'Cual es el atajo para CAMBIAR ENTRE PESTAÑAS'},
-      {combo:'Alt + F4', action:'cerrar el programa', icon:'i-power', color:'pink', prompt:'Cual es el atajo para CERRAR VENTANA'}
+      {combo:'Ctrl + T', action:'nueva pestaña', icon:'i-tabnew', color:'teal', prompt:'Quiero abrir una pestaña nueva'},
+      {combo:'Ctrl + W', action:'cerrar pestaña', icon:'i-tabclose', color:'coral', prompt:'Quiero cerrar esta pestaña'},
+      {combo:'Ctrl + R', action:'recargar página', icon:'i-reload', color:'blue', prompt:'La página no carga bien, quiero recargarla'},
+      {combo:'Ctrl + H', action:'ver historial', icon:'i-history', color:'purple', prompt:'Quiero ver las páginas que visité antes'},
+      {combo:'Ctrl + J', action:'ver descargas', icon:'i-download', color:'green', prompt:'Quiero ver lo que descargué'},
+      {combo:'Ctrl + Tab', action:'cambiar de pestaña', icon:'i-switch', color:'amber', prompt:'Quiero saltar a la otra pestaña que tengo abierta'},
+      {combo:'Alt + F4', action:'cerrar el programa', icon:'i-power', color:'pink', prompt:'Quiero cerrar todo el programa'}
     ]
   }
 };
@@ -245,7 +289,7 @@ function renderMenu(){
     html += '<div><h3>'+lvl.name+'</h3><p>'+lvl.desc+'</p></div></button>';
   });
   html += '</div></div>';
-  html += '<div class="tip">'+icon('i-bulb')+'<span>By CIAC Desing - Cesar Anzules * For Ian Anzules.</span></div>';
+  html += '<div class="tip">'+icon('i-bulb')+'<span>Estos son los mismos atajos de sus dos fotos del cuaderno. Cada vez que juega, las preguntas cambian de orden.</span></div>';
   app.innerHTML = html;
   app.querySelectorAll('.level-card').forEach(function(btn){
     btn.addEventListener('click', function(){ startLevel(parseInt(btn.dataset.level,10)); });
@@ -292,6 +336,8 @@ function renderGame(){
   html += '<div class="q-icon-wrap" style="background:'+qc[0]+'">'+icon(q.icon)+'</div>';
   html += '<p class="q-prompt">'+q.prompt+'</p>';
   html += '<div class="options">';
+  
+  /* AQUÍ SE ELIMINÓ EL ICONO PARA QUE EL NIÑO NO ADIVINE LA RESPUESTA */
   options.forEach(function(opt){
     const c = COLORS[opt.color];
     html += '<button class="opt" data-combo="'+opt.combo+'" style="--oc:'+c[0]+'">';
